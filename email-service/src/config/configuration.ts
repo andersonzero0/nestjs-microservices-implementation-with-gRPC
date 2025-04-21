@@ -1,6 +1,8 @@
 import { EnvironmentVariables } from './env.validation';
 
 export default (): EnvironmentVariables => ({
+  HOST: process.env.HOST,
+  HEALTH_CHECK_URL: process.env.HEALTH_CHECK_URL,
   GRPC_CONNECTION_URL: process.env.GRPC_CONNECTION_URL,
   PORT: +process.env.PORT || 3000,
   DATABASE_URL: process.env.DATABASE_URL,
@@ -10,4 +12,6 @@ export default (): EnvironmentVariables => ({
   SMTP_PASSWORD: process.env.SMTP_PASSWORD,
   EMAIL_FROM: process.env.EMAIL_FROM,
   EMAIL_FROM_NAME: process.env.EMAIL_FROM_NAME,
+  CONSUL_HOST: process.env.CONSUL_HOST,
+  CONSUL_PORT: +process.env.CONSUL_PORT || 8500,
 });

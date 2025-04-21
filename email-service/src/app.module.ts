@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { EmailModule } from './modules/email/email.module';
-import { ConfigModule } from '@nestjs/config';
-import { validate } from './config/env.validation';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EnvironmentVariables, validate } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
 import { ConsulModule } from './services/consul/consul.module';
 import { HealthModule } from './modules/health/health.module';
@@ -16,23 +16,24 @@ import configuration from './config/configuration';
       load: [configuration],
       validate,
     }),
-    ConsulModule.register({
-      options: {
-        host: 'consul-server',
-        port: 8500,
+    ConsulModule.registerAsync({
+      useFactory: (configService: ConfigService<EnvironmentVariables>) => ({
+        host: configService.get('CONSUL_HOST'),
+        port: configService.get('CONSUL_PORT'),
         secure: false,
         service: {
           id: 'email-service',
           name: 'email-service',
-          address: 'app',
-          port: 3000,
+          address: configService.get('HOST'),
+          port: configService.get('PORT'),
           tags: ['microservice', 'api'],
           check: {
-            http: 'http://app:3000/health',
+            http: configService.get('HEALTH_CHECK_URL'),
             interval: '10s',
           },
         },
-      },
+      }),
+      inject: [ConfigService],
       isGlobal: true,
     }),
     DatabaseModule,

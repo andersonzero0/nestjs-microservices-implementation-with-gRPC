@@ -1,6 +1,6 @@
 services:
 
-  app:
+  app_email_service:
     build: ./email-service
     volumes:
       - ./email-service:/home/node/app
@@ -9,7 +9,7 @@ services:
     networks:
       - app-network
 
-  app_1:
+  app_users_service:
     build: ./users-service
     volumes:
       - ./users-service:/home/node/app

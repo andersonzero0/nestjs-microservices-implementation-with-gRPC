@@ -28,7 +28,6 @@ export interface ConsulServiceOptions {
 }
 
 export interface ConsulOptions {
-  isGlobal?: boolean;
   host: string;
   port: number;
   secure?: boolean;

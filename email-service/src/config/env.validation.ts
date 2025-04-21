@@ -11,6 +11,14 @@ import {
 export class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
+  HOST: string;
+
+  @IsString()
+  @IsNotEmpty()
+  HEALTH_CHECK_URL: string;
+
+  @IsString()
+  @IsNotEmpty()
   GRPC_CONNECTION_URL: string;
 
   @IsString()
@@ -44,6 +52,13 @@ export class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   EMAIL_FROM_NAME: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CONSUL_HOST: string;
+
+  @IsNumber()
+  CONSUL_PORT: number;
 }
 
 export function validate(config: Record<string, unknown>) {
