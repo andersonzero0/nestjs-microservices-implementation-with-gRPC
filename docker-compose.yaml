@@ -1,0 +1,53 @@
+services:
+
+  app:
+    build: ./email-service
+    volumes:
+      - ./email-service:/home/node/app
+    ports:
+      - 3000:3000
+    networks:
+      - app-network
+
+  app_1:
+    build: ./users-service
+    volumes:
+      - ./users-service:/home/node/app
+    ports:
+      - 3001:3001
+    networks:
+      - app-network
+      
+  db:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+    networks:
+      - app-network
+
+  consul-server:
+    image: hashicorp/consul:latest
+    command: agent -server -ui -node=consul-server -bootstrap-expect=1 -client=0.0.0.0
+    ports:
+      - "8500:8500"  # UI
+      - "8600:8600/udp"  # DNS
+    networks:
+      - app-network
+
+  mailpit:
+    container_name: mailpit
+    restart: unless-stopped
+    image: axllent/mailpit:latest
+    environment:
+      TZ: America/Sao_Paulo
+    ports:
+      - "1025:1025"
+      - "8040:8025"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
