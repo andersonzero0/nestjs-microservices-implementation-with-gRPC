@@ -6,6 +6,9 @@ import { DatabaseModule } from '../../database/database.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { EnvironmentVariables } from '../../config/env.validation';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+
+import path from 'path';
 
 @Module({
   imports: [
@@ -22,6 +25,13 @@ import { EnvironmentVariables } from '../../config/env.validation';
         },
         defaults: {
           from: `"${configService.get<string>('EMAIL_FROM_NAME')}" <${configService.get<string>('EMAIL_FROM')}>`,
+        },
+        template: {
+          dir: path.join(__dirname, 'templates'),
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
         },
       }),
       inject: [ConfigService],

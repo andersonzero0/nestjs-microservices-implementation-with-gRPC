@@ -4,6 +4,7 @@ export default (): EnvironmentVariables => ({
   HOST: process.env.HOST,
   HEALTH_CHECK_URL: process.env.HEALTH_CHECK_URL,
   GRPC_CONNECTION_URL: process.env.GRPC_CONNECTION_URL,
+  GRPC_PORT: +process.env.GRPC_PORT || 5000,
   PORT: +process.env.PORT || 3000,
   DATABASE_URL: process.env.DATABASE_URL,
   SMTP_HOST: process.env.SMTP_HOST,

@@ -48,8 +48,6 @@ export class ConsulService implements OnModuleInit {
 
     await this.consul.agent.service.register(service);
     this.logger.log(`Service ${service.name} registered with Consul`);
-
-    this.getService(service.name);
   }
 
   async getService(serviceName: string): Promise<IConsulService> {

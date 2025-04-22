@@ -25,7 +25,7 @@ import configuration from './config/configuration';
           id: 'email-service',
           name: 'email-service',
           address: configService.get('HOST'),
-          port: configService.get('PORT'),
+          port: configService.get('GRPC_PORT'),
           tags: ['microservice', 'api'],
           check: {
             http: configService.get('HEALTH_CHECK_URL'),

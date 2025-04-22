@@ -59,6 +59,10 @@ export class EnvironmentVariables {
 
   @IsNumber()
   CONSUL_PORT: number;
+
+  @IsNumber()
+  @IsOptional()
+  GRPC_PORT: number;
 }
 
 export function validate(config: Record<string, unknown>) {

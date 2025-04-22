@@ -26,7 +26,11 @@ export class EmailService {
       const email = await this.mailerService.sendMail({
         to: data.receiver,
         subject: data.subject,
-        text: data.body,
+        template: './create-account-confirmation',
+        context: {
+          name: 'User',
+          url: 'https://example.com/confirm',
+        },
       });
 
       if (!email) {
@@ -36,7 +40,8 @@ export class EmailService {
       const emailEntity = await this.create(data);
 
       return emailEntity;
-    } catch {
+    } catch (error) {
+      console.error('Error sending email', error);
       throw new BadRequestException('Error sending email');
     }
   }

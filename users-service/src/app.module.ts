@@ -13,11 +13,11 @@ import { ConsulModule } from './services/consul/consul.module';
         service: {
           id: 'users-service',
           name: 'users-service',
-          address: 'app_1',
+          address: 'app_users_service',
           port: 3001,
           tags: ['microservice', 'api'],
           check: {
-            http: 'http://app_1:3001/health',
+            http: 'http://app_users_service:3001/health',
             interval: '10s',
           },
         },
