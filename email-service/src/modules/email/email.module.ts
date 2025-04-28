@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { EmailController } from './email.controller';
-import { emailProviders } from './repository/email.providers';
 import { DatabaseModule } from '../../database/database.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
@@ -9,6 +8,7 @@ import { EnvironmentVariables } from '../../config/env.validation';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 import path from 'path';
+import { emailRepositoryProvider } from './providers/email-repository.provider';
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import path from 'path';
       inject: [ConfigService],
     }),
   ],
-  providers: [...emailProviders, EmailService],
+  providers: [EmailService, emailRepositoryProvider],
   controllers: [EmailController],
 })
 export class EmailModule {}

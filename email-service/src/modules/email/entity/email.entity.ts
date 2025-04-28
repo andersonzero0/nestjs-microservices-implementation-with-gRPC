@@ -1,15 +1,8 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { BaseEntity } from '../../../shared/base.entity';
 
 @Entity('email')
-export class EmailEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class EmailEntity extends BaseEntity {
   @Column()
   receiver: string;
 
@@ -21,7 +14,4 @@ export class EmailEntity {
 
   @Column('simple-array', { nullable: true })
   attachments: string[];
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: string;
 }

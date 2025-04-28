@@ -1,20 +1,13 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateEmail } from './interfaces/email.grpc.interface';
 import { EmailEntity } from './entity/email.entity';
-import { EMAIL_REPOSITORY } from './repository/email.providers';
-import { Repository } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
+import { IEmailRepository } from './interfaces/email-repository.interface';
 
 @Injectable()
 export class EmailService {
   constructor(
-    @Inject(EMAIL_REPOSITORY)
-    private readonly emailRepository: Repository<EmailEntity>,
+    private readonly emailRepository: IEmailRepository,
     private readonly mailerService: MailerService,
   ) {}
 
@@ -47,26 +40,18 @@ export class EmailService {
   }
 
   async create(data: CreateEmail): Promise<EmailEntity> {
-    try {
-      const email = this.emailRepository.create(data);
-      await this.emailRepository.save(email);
-      return email;
-    } catch {
-      throw new BadRequestException('Error creating email entity');
-    }
+    return await this.emailRepository.save(data);
   }
 
   async findOne(id: string): Promise<EmailEntity> {
-    return await this.emailRepository.findOne({
-      where: { id },
-    });
+    return await this.emailRepository.findOne(id);
   }
 
   async findAll(): Promise<EmailEntity[]> {
-    return await this.emailRepository.find();
+    return await this.emailRepository.findAll();
   }
 
   async delete(id: string): Promise<void> {
-    await this.emailRepository.delete({ id });
+    await this.emailRepository.delete(id);
   }
 }
